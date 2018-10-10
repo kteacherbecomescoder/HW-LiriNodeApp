@@ -1,0 +1,32 @@
+{
+  "name": "liribot",
+  "version": "1.0.0",
+  "description": "my liribot",
+  "main": "keys.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kteacherbecomescoder/HW-LiriNodeApp.git"
+  },
+  "keywords": [
+    "spotify",
+    "omdb",
+    "nodejs",
+    "bands-in",
+    "town"
+  ],
+  "author": "eric guerrero",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kteacherbecomescoder/HW-LiriNodeApp/issues"
+  },
+  "homepage": "https://github.com/kteacherbecomescoder/HW-LiriNodeApp#readme",
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "moment": "^2.22.2",
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.88.0"
+  }
+}

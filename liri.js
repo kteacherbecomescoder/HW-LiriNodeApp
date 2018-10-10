@@ -1,2 +1,1 @@
-js
 require("dotenv").config();
