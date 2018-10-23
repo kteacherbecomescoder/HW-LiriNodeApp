@@ -1,91 +1,158 @@
 require("dotenv").config();
 
-var keys = require('./keys.js');
+var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
+var spotify = new Spotify(keys.spotify);
 
-var request = require('request');
-var moment = require('moment');
+var request = require("request");
 
+var fs = require("fs");
 
-var spotify = new Spotify({
-   id: keys.spotify.id,
-   secret: keys.spotify.secret 
-});
+var inquirer = require("inquirer");
 
-
-if (process.argv[2] === 'concert-this' ) {
-
-    var artist = process.argv.slice(3).join(" ")
-    console.log(artist);
-
-    var queryURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
-
-    request(queryURL, function (error, response, body) {
-        if (error) console.log(error);
-        var result = JSON.parse(body)[0];
-        console.log("Venue name " + result.venue.name);
-        console.log("Venue location " + result.venue.city);
-        console.log("Date of Event " + moment(result.datetime).format("MM/DD/YYYY"));
+var moment = require("moment");
 
 
-    });
+var input = process.argv.splice(2);
+var searchTerm = "";
 
 
-
-} else if ( process.argv[2] == 'spotify-this-song') {
-
-    var songName = process.argv.slice(3).join(" ");
-
-    if (songName == undefined) {
-        songName = "The Sign by Ace of Base";
+if (input.length > 0) {
+   
+    for (var i = 1; i < input.length; i++) {
+        searchTerm += input[i];
     }
+    liri(input[0]);
 
+}
 
-    spotify.search({ type: 'track', query: songName, limit: 10 }, function(err, data) {
-        if (err) {
-            return console.log('Error occured: ' + err);
+else {
+    
+    inquirer.prompt([{
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["Search for a concert by artist", "Search for a song on Spotify", "Look up a movie's info", "Do what it says"],
+        name: "choice"
+    },
+    {
+        type: "input",
+        message: "what are you searching for?",
+        name: "search",
+        when: function(answer){
+            return answer.choice != "Do what it says";
         }
+    }]).then(function(response){
+        searchTerm = response.search;
+        switch(response.choice){
+            case "Search for a concert by artist":
+                liri("concert-this");
+            break;
+            case "Search for a song on Spotify":
+                liri("spotify-this-song");
+            break;
+            case "Look up a movie's info":
+                liri("movie-this");
+            break;
+            case "Do what it says":
+                liri("do-what-it-says");
+            break;
+        }
+        console.log(response.choice);
+    })
+}
 
-        var tableArray = [];
-
-        for (var i = 0; i < data.tracks.items.length; i++ ) {
-            var result = {
-                artist : data.tracks.items[i].album.artists[0].name,
-                album_name : data.tracks.items[i].album.name,
-                song_name : data.tracks.items[i].name,
-                preview_url : data.tracks.items[i].preview_url
+function liri(command){
+    //identify command arguments
+    switch (command) {
+        case "concert-this":
+            if(searchTerm){
+                concert(searchTerm);
             }
-       
-        }
-
-
-    });
-
-
-
-
-
-} else if ( process.argv[2] == 'movie-this') {
-    var movieName = process.argv.slice(3).join(" ");
-
-    if (movieName == undefined) {
-        movieName = "Mr. Nobody"
+            else{
+                concert("Lady Gaga");
+            }
+            break;
+        case "spotify-this-song":
+            if(searchTerm){
+                music(searchTerm);
+            }
+            else{
+                music("The Sign");
+            }
+            break;
+        case "movie-this":
+            if(searchTerm){
+                movie(searchTerm);
+            }
+            else{
+                movie("Mr. Nobody");
+            }
+            break;
+        case "do-what-it-says":
+            fs.readFile("random.txt", "utf8", function(error, data) {
+                if(error) console.log(error);
+                input = data.split(",");
+                searchTerm = input[1];
+                liri(input[0]);
+            })
+            break;
+        default:
+            console.log("Invalid Option");
+            break;
     }
+}
 
-    request("http;//www.omdapi.com/?i=tt0485947&apikey=trilogy" + process.argv[3], function (error, response, body) {
+//function for searcing an artist on bands in town
+function concert(artist) {
+    request("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp", function (error, response, info) {
 
-        var result = JSON.parse(body);
-        console.log("Title :" + result.Title);
-        console.log("Year :" + result.Released);
-        console.log("IMDB Rating :" + result.imdbRating );
-        console.log("Rotten Tomatoes :" + result.Ratings[1].Value);
-        console.log("Country :" + result.Country);
-        console.log("Language :" + result.Language);
-        console.log("Movie Plot :" + result.Plot);
-        console.log("Actors " + result.Actors);
+        // If the request was successful...
+        if (!error && response.statusCode === 200) {
 
+            var parsed = JSON.parse(info);
+           
+            for (var i = 0; i < parsed.length; i++) {
+                console.log("**********");
+                console.log("Venue Name: " + parsed[i].venue.name);
+                console.log("Location: " + parsed[i].venue.city + ", " + parsed[i].venue.region);
+                var formattedTime = moment(parsed[i].datetime, "YYYY-MM-DD HH:mm:ss").format("MM-DD-YYYY");
+                console.log("Date: " + formattedTime);
+            }
+        }
     });
+}
 
-} else if (process.argv[2] == 'do-what-it-says') {
-    console.log('do what it says')
+//function for searching spotify 
+function music(song) {
+    spotify.search({ type: 'track', query: song }, function (err, data) {
+        if (err) return console.log('Error occurred: ' + err);
+        var songs = data.tracks.items;
+        for (var i = 0; i < songs.length; i++) {
+            console.log("**********");
+            for (var j = 0; j < songs[i].artists.length; j++) {
+                console.log("Artist " + (j + 1) + ": " + songs[i].artists[j].name);
+            }
+            console.log("Song Name: " + songs[i].name);
+            console.log("Preview: " + songs[i].preview_url);
+            console.log("Album: " + songs[i].album.name);
+        }
+    });
+}
+
+//function for movie search
+function movie(movie) {
+
+    request("http://www.omdbapi.com/?t=" + movie + "&plot=short&apikey=trilogy", function (error, response, info) {
+        if (!error && response.statusCode === 200) {
+            info = JSON.parse(info);
+            console.log("Movie Name: " + info.Title);
+            console.log("Release Year: " + info.Year);
+            console.log("IMDB Rating: " + info.imdbRating);
+            console.log("Country: " + info.Country);
+            console.log("Language: " + info.Language);
+            console.log("Plot: " + info.Plot);
+            console.log("Actors: " + info.Actors);
+
+        }
+    });
 }
