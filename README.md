@@ -30,4 +30,3 @@ Here are some command images for each search:
 /images/Search - Do What It Says!.png
 /images/Search for Movie.png
 /images/Search for Song on Spotify.png
-
