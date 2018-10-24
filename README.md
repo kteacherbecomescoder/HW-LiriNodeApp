@@ -26,7 +26,8 @@ movie-this will search the OMDB and give you information on the movie including 
 do-what-it-says will read a random.txt file, and run the command stored in the text file.
 
 Here are some command images for each search:
-/images/Search For Concert by Artist.png
+<!-- https://kteacherbecomescoder.github.com/images/Search For Concert by Artist.png -->
+![Image of Do What It Says](https://github.com/kteacherbecomescoder/HW-LiriNodeApp/blob/master/images/Search%20-%20Do%20What%20It%20Says!.png)
 /images/Search - Do What It Says!.png
 /images/Search for Movie.png
 /images/Search for Song on Spotify.png
