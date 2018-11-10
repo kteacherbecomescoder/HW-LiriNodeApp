@@ -1,20 +1,20 @@
 # LIRI-node-app
-```
+
 Language, Interpretation and Recogonition Interface
 
 LIRI will search Spotify for songs, Bands in Town for concerts and OMDB for movies.
-```
 
-### Installing
+## Installing
 
-```
 Once you've cloned the repository, you'll need to install the required node packages listed in packages.json. They are: node-spotify-api, request, moment and dotenv. This is done with a simple npm install command.
 
+```
 After the packages are installed you'll be able to run 'node liri.js'
 
 ```
+
 ## Interacting with LIRI
-```
+
 You may either enter in one of the commands as an argument; "concert-this", "spotify-this-song", "movie-this", or "do-what-it-says", or alternatively enter in no arguments for a interactive menu.
 
 For "concert-this", "spotify-this-song", or "movie-this" you'll also need to enter in an artist/band, song title, or movie title to search for.
@@ -28,7 +28,7 @@ movie-this will search the OMDB and give you information on the movie including 
 
 do-what-it-says will read a random.txt file, and run the command stored in the text file.
 
-```
+
 Here are some command images for each search:
 
 Example of "Do What It Says"!
