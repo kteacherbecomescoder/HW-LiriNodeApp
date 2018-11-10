@@ -6,9 +6,9 @@ LIRI will search Spotify for songs, Bands in Town for concerts and OMDB for movi
 
 ## Installing
 
-Once you've cloned the repository, you'll need to install the required node packages listed in packages.json. They are: node-spotify-api, request, moment and dotenv. This is done with a simple npm install command.
+*Once you've cloned the repository, you'll need to install the required node packages listed in packages.json. They are: node-spotify-api, request, moment and dotenv. This is done with a simple npm install command.
 
-After the packages are installed you'll be able to run 'node liri.js'
+*After the packages are installed you'll be able to run 'node liri.js'
 
 ## Interacting with LIRI
 
