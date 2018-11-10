@@ -30,27 +30,28 @@ do-what-it-says will read a random.txt file, and run the command stored in the t
 
 
 Here are some command images for each search:
+
 ```
-Example of "Do What It Says"!
+**Example of "Do What It Says"!**
 
 ```
 ![Image of Do What It Says](https://github.com/kteacherbecomescoder/HW-LiriNodeApp/blob/master/images/Search%20-%20Do%20What%20It%20Says!.png)
 
 ```
-Example of "Concert-This"!
+**Example of "Concert-This"!**
 
 ```
 ![Image of Concert-This](https://github.com/kteacherbecomescoder/HW-LiriNodeApp/blob/master/images/Search%20For%20Concert%20by%20Artist.png)
 
 ```
-Example of "Movie-This"
+**Example of "Movie-This"**
 
 ```
 ![Image of Movie-This](https://github.com/kteacherbecomescoder/HW-LiriNodeApp/blob/master/images/Search%20for%20Movie.png)
 
 ```
 
-Example of "Song-This"!
+**Example of "Song-This"!**
 
 ```
 ![Image of Song-This](https://github.com/kteacherbecomescoder/HW-LiriNodeApp/blob/master/images/Search%20for%20Song%20on%20Spotify.png)
